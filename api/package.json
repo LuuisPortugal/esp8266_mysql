@@ -1,0 +1,19 @@
+{
+  "name": "esp8266_mysql",
+  "version": "1.0.0",
+  "description": "Connect ESP8266 with MySQL Database",
+  "scripts": {
+    "server": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.3.2",
+    "socket.io": "^4.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}

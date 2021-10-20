@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Pinos do ESP8266</title>
+</head>
+<body>
+<h1>ESP8266 + Mysql</h1>
+
+<h3>Pinos: </h3>
+<ul id="lista_pinos"></ul>
+
+<h3>Registros: </h3>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Pino</th>
+        <th>Horário</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody id="lista_registros">
+    <tr>
+        <td>asd</td>
+        <td>Piasdno</td>
+        <td>Hoasdrário</td>
+        <td>Staasdtus</td>
+    </tr>
+    </tbody>
+</table>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    // Crio a função para atualizar o estado
+    function atualizaEstado()
+    {
+        // Carrego os estados
+        fetch('http://localhost:3000/estado')
+            .then(response => response.json())
+            .then(estados =>
+            {
+                // Carrego a lista de estados no html
+                let lista_pinos = document.getElementById('lista_pinos');
+
+                // Limpo a lista de estados
+                lista_pinos.innerText = "";
+
+                // Seleciono todos os estados
+                estados.map(({pino, estado, horario}) =>
+                {
+                    // Crio o elemento da lista
+                    let li = document.createElement('li');
+
+                    // Configuro o conteúdo
+                    li.innerText = `Pino ${pino}: ${estado} (última atualização: ${new Date(horario).toLocaleString()})`;
+
+                    // Salvo o elemento na lista
+                    lista_pinos.appendChild(li);
+                })
+            })
+    }
+
+    // Crio a função para atualizar os pinos
+    function atualizaRegistros()
+    {
+        // Carrego os pinos
+        fetch('http://localhost:3000/pino')
+            .then(response => response.json())
+            .then(pinos =>
+            {
+                // Carrego a lista de pinos no html
+                let lista_registros = document.getElementById('lista_registros');
+
+                // Limpo a lista de pinos
+                lista_registros.innerText = "";
+
+                // Seleciono todos os estados
+                pinos.map(({id, pino, estado, horario}) =>
+                {
+                    // Crio o elemento da lista
+                    let tr = document.createElement('tr');
+
+                    // Crio a coluna id
+                    let tdId = document.createElement('td');
+                    tdId.innerText = id;
+
+                    // Crio a coluna Pino
+                    let tdPino = document.createElement('td');
+                    tdPino.innerText = pino;
+
+                    // Crio a coluna horario
+                    let tdHorario = document.createElement('td');
+                    tdHorario.innerText = new Date(horario).toLocaleString();
+
+                    // Crio a coluna estado
+                    let tdEstado = document.createElement('td');
+                    tdEstado.innerText = estado;
+
+                    // Adiciono as colunas na linha
+                    tr.appendChild(tdId);
+                    tr.appendChild(tdPino);
+                    tr.appendChild(tdHorario);
+                    tr.appendChild(tdEstado);
+
+                    // Salvo o elemento na lista
+                    lista_registros.appendChild(tr);
+                })
+            })
+    }
+
+    // Crio a função para atualizar a view
+    function atualizarView()
+    {
+        atualizaEstado();
+        atualizaRegistros();
+    }
+
+    // Atualizo a tela
+    atualizarView();
+
+    // Carrego o socket
+    const socket = io();
+
+    // Configuro para quando um pino for inserido a tela seja atualizada
+    socket.on('pino:created', () => atualizarView());
+</script>
+</body>
+</html>
