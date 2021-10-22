@@ -44,10 +44,10 @@ export default {
           }]
         },
         {
-          label: 'Pinos', icon: 'pi pi-fw pi-sitemap',
+          label: 'Pinos',
           items: [
-            {label: 'Cadastro', icon: 'pi pi-fw pi-user-edit', to: '/cadastro'},
-            {label: 'Valores', icon: 'pi pi-fw pi-table', to: '/valores'},
+            {label: 'Cadastro', icon: 'pi pi-fw pi-plus', to: '/cadastro'},
+            {label: 'Valores', icon: 'pi pi-fw pi-list', to: '/valores'},
           ]
         },
       ]
@@ -111,14 +111,6 @@ export default {
         this.mobileMenuActive = false;
       }
     },
-    onLayoutChange(layoutMode)
-    {
-      this.layoutMode = layoutMode;
-    },
-    onLayoutColorChange(layoutColorMode)
-    {
-      this.layoutColorMode = layoutColorMode;
-    },
     addClass(element, className)
     {
       if (element.classList)
@@ -145,22 +137,6 @@ export default {
     {
       return window.innerWidth >= 992;
     },
-    isSidebarVisible()
-    {
-      if (this.isDesktop())
-      {
-        if (this.layoutMode === 'static')
-        {
-          return !this.staticMenuInactive;
-        }
-        else if (this.layoutMode === 'overlay')
-        {
-          return this.overlayMenuActive;
-        }
-      }
-
-      return true;
-    }
   },
   computed: {
     containerClass()
@@ -176,12 +152,6 @@ export default {
         'layout-theme-light': this.$appState.theme.startsWith('saga')
       }];
     },
-    logo()
-    {
-      return (this.layoutColorMode === 'dark')
-          ? "images/logo-white.svg"
-          : "images/logo.svg";
-    }
   },
   beforeUpdate()
   {
