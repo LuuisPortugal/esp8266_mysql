@@ -17,7 +17,7 @@ module.exports = {
         }
 
         // Se não, cria uma nova e salva
-        mysqlInstace = await mysql.createConnection("mysql://root:esp8266_mysql_secret@127.0.0.1:3306/esp8266_mysql");
+        mysqlInstace = await mysql.createConnection(process.env.DB_URI);
 
         // Aviso da conexão com o banco
         console.log("Database conectado")

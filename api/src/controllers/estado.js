@@ -1,5 +1,5 @@
 // Carrega o repositorio
-const PinoRepositorio = require('../repositories/pino');
+const PinoValorRepositorio = require('../repositories/pino_valor');
 
 // Exportando as funções do estado
 module.exports = {
@@ -7,6 +7,6 @@ module.exports = {
     async get(req, res, next)
     {
         // Retorno todos os estados dos pinos salvos
-        res.json(await PinoRepositorio.pinoPorEstado())
+        res.json(await PinoValorRepositorio.pinoPorEstado())
     },
 }

@@ -4,9 +4,15 @@ const {emit} = require('../configs/socket');
 // Exportando as funções do pino
 module.exports = {
     // Configuro o evento que avisará que um pino foi criado
-    created()
+    criado()
     {
         // Emito o evento
-        emit('pino:created');
+        emit('pino:criado');
+    },
+    // Configuro o evento que avisará que um pino foi deletado
+    deletado()
+    {
+        // Emito o evento
+        emit('pino:deletado');
     }
 }

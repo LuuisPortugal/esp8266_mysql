@@ -5,7 +5,12 @@ const app = require('express')();
 const http = require('http').Server(app);
 
 // Cria o servidor socket
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {cors: {origins: '*:*'}});
+
+// Carrego as variáveis
+const dotenv = require('dotenv');
+const {resolve} = require('path');
+dotenv.config({path: resolve(__dirname, '..', '.env')});
 
 // Registra as rotas do servidor
 require('./configs/route')
