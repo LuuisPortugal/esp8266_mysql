@@ -1,6 +1,12 @@
 // Importando o Mysql
 const mysql = require("mysql2/promise");
 
+// Importa o Fs
+const fs = require('fs');
+
+// Importa o path
+const {resolve} = require('path');
+
 // Variável para salvar a instancia do banco
 let mysqlInstace = null;
 
@@ -20,7 +26,17 @@ module.exports = {
         mysqlInstace = await mysql.createConnection(process.env.DB_URI);
 
         // Aviso da conexão com o banco
-        console.log("Database conectado")
+        console.log("Database conectado");
+
+        // Cria o banco e tabelas caso não tenha sido criado
+        let dbPath = resolve(__dirname, "database", "script.sql"); 
+        let db = fs.readFileSync(dbPath, 'utf8');
+        mysqlInstace.beginTransaction()
+            .then(() => {
+                mysqlInstace.execute(db);
+                mysqlInstace.commit();
+            })
+            .catch(err => console.log(err))
 
         // Retorna ela
         return mysqlInstace;

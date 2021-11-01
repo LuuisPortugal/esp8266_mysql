@@ -11,7 +11,8 @@ module.exports = {
 
         // Seleciono todas as linhas da tabela
         let [rows] = await db
-            .query('SELECT * FROM pinos_valores ORDER BY horario DESC');
+            .query('SELECT * FROM pinos_valores ORDER BY horario DESC')
+            .catch(err => console.log(err));
 
         // Retorno todas as linhas
         return rows;
@@ -27,7 +28,8 @@ module.exports = {
         const values = [pino, new Date(), valor];
 
         // Salvo o novo valor no banco
-        return await db.query(sql, values);
+        return await db.query(sql, values)
+            .catch(err => console.log(err));
     },
     // Carrego todos os pinos pelo seu estado
     async pinoPorEstado()
@@ -56,7 +58,8 @@ module.exports = {
                 'WHERE p.pino = pv.pino\n' +
                 '  AND pv.pino = pp.pino\n' +
                 '  AND pv.horario = pp.ultimo_horario\n' +
-                'ORDER BY pv.pino DESC\n');
+                'ORDER BY pv.pino DESC\n')
+            .catch(err => console.log(err));
 
         // Retorno todas as linhas
         return rows;

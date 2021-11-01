@@ -11,7 +11,8 @@ module.exports = {
 
         // Seleciono todas as linhas da tabela
         let [rows] = await db
-            .query('SELECT * FROM pinos ORDER BY id DESC');
+            .query('SELECT * FROM pinos ORDER BY id DESC')
+            .catch(err => console.log(err));
 
         // Retorno todas as linhas
         return rows;
@@ -27,7 +28,8 @@ module.exports = {
         const values = [pino, descricao, tipo];
 
         // Salvo o novo valor no banco
-        return await db.query(sql, values);
+        return await db.query(sql, values)
+            .catch(err => console.log(err));
     },
     // deleto uma nova linha no banco
     async delete(pino)
@@ -41,6 +43,7 @@ module.exports = {
         const values = [pino];
 
         // Deleta o valor no banco
-        return await db.query(sqlPinoValor, values) && await db.query(sqlPino, values);
+        return await db.query(sqlPinoValor, values) && await db.query(sqlPino, values)
+            .catch(err => console.log(err));
     },
 }

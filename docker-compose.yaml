@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  db:
+    container_name: mysql
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=esp8266_mysql
+      - MYSQL_ROOT_PASSWORD=esp8266_mysql_secret
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - db:/var/lib/mysql
+
+  api:
+    container_name: api
+    build:
+      context: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_URI=mysql://root:esp8266_mysql_secret@db:3306/esp8266_mysql 
+    links:
+      - db
+    volumes:
+      - ./api:/usr/src/app/api
+      - /usr/src/app/api/node_modules
+
+  web:
+    container_name: web
+    build:
+      context: ./web
+    ports:
+      - "8080:8080"
+    environment:
+      - VUE_APP_API_URL=http://api:3000
+    links:
+      - api
+    volumes:
+      - ./web:/usr/src/app/web
+      - /usr/src/app/web/node_modules
+
+# Names our volume
+volumes:
+  db:
