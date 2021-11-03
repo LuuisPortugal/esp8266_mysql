@@ -21,7 +21,12 @@ module.exports = {
         app.use(json());
 
         // Configuro para a api aceitar cors
-        app.use(cors());
+        app.use(
+		cors({
+			origin: "*",
+			methods: ['GET','POST','DELETE']
+		})
+	);
 
         // Cadastro as rotas do controlador pino
         app.route('/pino')
