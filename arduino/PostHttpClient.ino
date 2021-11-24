@@ -1,7 +1,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-#define SERVER_IP "ec2-18-191-253-24.us-east-2.compute.amazonaws.com:3000"
+#define SERVER_IP "ec2-52-14-34-76.us-east-2.compute.amazonaws.com:3000"
 
 #ifndef STASSID
 #define STASSID "NOME_DO_WIFI"
